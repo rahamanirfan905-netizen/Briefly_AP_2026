@@ -1,0 +1,16 @@
+BEGIN
+                                                                     QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Delete on "Bookmark"  (cost=0.15..8.17 rows=0 width=0) (actual time=0.066..0.067 rows=0.00 loops=1)
+   Buffers: shared hit=3
+   ->  Index Scan using "Bookmark_userId_articleId_key" on "Bookmark"  (cost=0.15..8.17 rows=1 width=6) (actual time=0.020..0.021 rows=1.00 loops=1)
+         Index Cond: (("userId" = 'u1'::text) AND ("articleId" = 'a1'::text))
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=106
+ Planning Time: 0.739 ms
+ Execution Time: 0.224 ms
+(10 rows)
+
+ROLLBACK

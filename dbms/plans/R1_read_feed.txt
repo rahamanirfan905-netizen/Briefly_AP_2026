@@ -1,0 +1,30 @@
+                                                                                             QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=24.57..24.61 rows=2 width=176) (actual time=0.147..0.149 rows=2.00 loops=1)
+   Buffers: shared hit=19
+   ->  Incremental Sort  (cost=24.57..24.61 rows=2 width=176) (actual time=0.145..0.146 rows=2.00 loops=1)
+         Sort Key: a.score DESC, a.id
+         Presorted Key: a.score
+         Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+         Buffers: shared hit=19
+         ->  Nested Loop  (cost=0.44..24.56 rows=1 width=176) (actual time=0.064..0.073 rows=2.00 loops=1)
+               Buffers: shared hit=10
+               ->  Nested Loop  (cost=0.29..16.36 rows=1 width=176) (actual time=0.048..0.055 rows=2.00 loops=1)
+                     Buffers: shared hit=6
+                     ->  Index Scan using "NewsArticle_region_hidden_isClusterPrimary_score_idx" on "NewsArticle" a  (cost=0.14..8.17 rows=1 width=176) (actual time=0.009..0.011 rows=2.00 loops=1)
+                           Index Cond: ((region = 'INDIA'::"Region") AND (hidden = false) AND ("isClusterPrimary" = true))
+                           Index Searches: 1
+                           Buffers: shared hit=2
+                     ->  Index Scan using "Category_pkey" on "Category" c  (cost=0.15..8.17 rows=1 width=64) (actual time=0.017..0.017 rows=1.00 loops=2)
+                           Index Cond: (id = a."categoryId")
+                           Index Searches: 2
+                           Buffers: shared hit=4
+               ->  Index Scan using "Publisher_pkey" on "Publisher" p  (cost=0.15..8.17 rows=1 width=64) (actual time=0.007..0.007 rows=1.00 loops=2)
+                     Index Cond: (id = a."publisherId")
+                     Index Searches: 2
+                     Buffers: shared hit=4
+ Planning:
+   Buffers: shared hit=391
+ Planning Time: 2.720 ms
+ Execution Time: 0.244 ms
+(27 rows)

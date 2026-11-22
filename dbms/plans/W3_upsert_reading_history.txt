@@ -1,0 +1,19 @@
+BEGIN
+                                                QUERY PLAN
+-----------------------------------------------------------------------------------------------------------
+ Insert on "ReadingHistory"  (cost=0.00..0.02 rows=0 width=0) (actual time=0.348..0.349 rows=0.00 loops=1)
+   Conflict Resolution: UPDATE
+   Conflict Arbiter Indexes: ReadingHistory_userId_articleId_key
+   Tuples Inserted: 1
+   Conflicting Tuples: 0
+   Buffers: shared hit=19
+   ->  Result  (cost=0.00..0.02 rows=1 width=104) (actual time=0.026..0.027 rows=1.00 loops=1)
+ Planning:
+   Buffers: shared hit=63
+ Planning Time: 0.272 ms
+ Trigger for constraint ReadingHistory_userId_fkey: time=1.011 calls=1
+ Trigger for constraint ReadingHistory_articleId_fkey: time=1.336 calls=1
+ Execution Time: 2.949 ms
+(13 rows)
+
+ROLLBACK

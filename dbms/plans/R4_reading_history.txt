@@ -1,0 +1,35 @@
+                                                                                 QUERY PLAN
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=24.70..24.71 rows=3 width=136) (actual time=0.074..0.076 rows=1.00 loops=1)
+   Buffers: shared hit=11
+   ->  Sort  (cost=24.70..24.71 rows=3 width=136) (actual time=0.074..0.075 rows=1.00 loops=1)
+         Sort Key: h."readAt" DESC, h.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=11
+         ->  Nested Loop  (cost=11.47..24.68 rows=3 width=136) (actual time=0.047..0.049 rows=1.00 loops=1)
+               Buffers: shared hit=5
+               ->  Hash Join  (cost=11.32..23.22 rows=3 width=136) (actual time=0.034..0.036 rows=1.00 loops=1)
+                     Hash Cond: (a.id = h."articleId")
+                     Buffers: shared hit=3
+                     ->  Seq Scan on "NewsArticle" a  (cost=0.00..11.50 rows=150 width=96) (actual time=0.005..0.005 rows=2.00 loops=1)
+                           Buffers: shared hit=1
+                     ->  Hash  (cost=11.28..11.28 rows=3 width=72) (actual time=0.022..0.023 rows=1.00 loops=1)
+                           Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                           Buffers: shared hit=2
+                           ->  Bitmap Heap Scan on "ReadingHistory" h  (cost=4.17..11.28 rows=3 width=72) (actual time=0.016..0.016 rows=1.00 loops=1)
+                                 Recheck Cond: ("userId" = 'u1'::text)
+                                 Heap Blocks: exact=1
+                                 Buffers: shared hit=2
+                                 ->  Bitmap Index Scan on "ReadingHistory_userId_readAt_idx"  (cost=0.00..4.17 rows=3 width=0) (actual time=0.003..0.003 rows=2.00 loops=1)
+                                       Index Cond: ("userId" = 'u1'::text)
+                                       Index Searches: 1
+                                       Buffers: shared hit=1
+               ->  Index Scan using "Category_pkey" on "Category" c  (cost=0.15..0.48 rows=1 width=64) (actual time=0.011..0.011 rows=1.00 loops=1)
+                     Index Cond: (id = a."categoryId")
+                     Index Searches: 1
+                     Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=390
+ Planning Time: 1.257 ms
+ Execution Time: 0.122 ms
+(32 rows)

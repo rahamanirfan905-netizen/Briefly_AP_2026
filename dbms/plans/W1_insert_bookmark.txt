@@ -1,0 +1,19 @@
+BEGIN
+                                             QUERY PLAN
+-----------------------------------------------------------------------------------------------------
+ Insert on "Bookmark"  (cost=0.00..0.02 rows=0 width=0) (actual time=0.313..0.314 rows=0.00 loops=1)
+   Conflict Resolution: NOTHING
+   Conflict Arbiter Indexes: Bookmark_userId_articleId_key
+   Tuples Inserted: 1
+   Conflicting Tuples: 0
+   Buffers: shared hit=19
+   ->  Result  (cost=0.00..0.02 rows=1 width=104) (actual time=0.021..0.021 rows=1.00 loops=1)
+ Planning:
+   Buffers: shared hit=73
+ Planning Time: 0.154 ms
+ Trigger for constraint Bookmark_userId_fkey: time=0.721 calls=1
+ Trigger for constraint Bookmark_articleId_fkey: time=1.177 calls=1
+ Execution Time: 2.268 ms
+(13 rows)
+
+ROLLBACK

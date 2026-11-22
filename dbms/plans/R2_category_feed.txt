@@ -1,0 +1,30 @@
+                                                                                               QUERY PLAN
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=17.16..17.16 rows=1 width=136) (actual time=0.120..0.121 rows=1.00 loops=1)
+   Buffers: shared hit=12
+   ->  Sort  (cost=17.16..17.16 rows=1 width=136) (actual time=0.118..0.119 rows=1.00 loops=1)
+         Sort Key: a."publishedAt" DESC, a.id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=12
+         ->  Nested Loop  (cost=0.44..17.15 rows=1 width=136) (actual time=0.073..0.075 rows=1.00 loops=1)
+               Buffers: shared hit=6
+               ->  Nested Loop  (cost=0.29..16.34 rows=1 width=136) (actual time=0.057..0.059 rows=1.00 loops=1)
+                     Buffers: shared hit=4
+                     ->  Index Scan using "Category_slug_key" on "Category" c  (cost=0.15..8.17 rows=1 width=64) (actual time=0.024..0.025 rows=1.00 loops=1)
+                           Index Cond: (slug = 'technology'::text)
+                           Filter: active
+                           Index Searches: 1
+                           Buffers: shared hit=2
+                     ->  Index Scan using "NewsArticle_categoryId_hidden_isClusterPrimary_score_idx" on "NewsArticle" a  (cost=0.14..8.16 rows=1 width=136) (actual time=0.029..0.029 rows=1.00 loops=1)
+                           Index Cond: (("categoryId" = c.id) AND (hidden = false))
+                           Index Searches: 1
+                           Buffers: shared hit=2
+               ->  Index Scan using "NewsSource_pkey" on "NewsSource" s  (cost=0.15..0.80 rows=1 width=64) (actual time=0.015..0.015 rows=1.00 loops=1)
+                     Index Cond: (id = a."sourceId")
+                     Index Searches: 1
+                     Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=382
+ Planning Time: 3.122 ms
+ Execution Time: 0.197 ms
+(27 rows)

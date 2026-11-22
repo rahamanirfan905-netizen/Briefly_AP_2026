@@ -1,0 +1,17 @@
+                                                                         QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join  (cost=0.30..16.34 rows=1 width=128) (actual time=0.029..0.030 rows=1.00 loops=1)
+   Buffers: shared hit=4
+   ->  Index Scan using "User_pkey" on "User" u  (cost=0.15..8.17 rows=1 width=64) (actual time=0.010..0.011 rows=1.00 loops=1)
+         Index Cond: (id = 'u1'::text)
+         Index Searches: 1
+         Buffers: shared hit=2
+   ->  Index Scan using "UserPreference_userId_key" on "UserPreference" pref  (cost=0.15..8.17 rows=1 width=96) (actual time=0.016..0.016 rows=1.00 loops=1)
+         Index Cond: ("userId" = 'u1'::text)
+         Index Searches: 1
+         Buffers: shared hit=2
+ Planning:
+   Buffers: shared hit=221
+ Planning Time: 1.285 ms
+ Execution Time: 0.097 ms
+(14 rows)
